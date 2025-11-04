@@ -1,16 +1,11 @@
 import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, Text, View} from "react-native";
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import {useFonts} from "expo-font";
 import {colors} from "./constants/colors";
 import {padding} from "./constants/padding";
-import {margin} from "./constants/margin";
-import {radius} from "./constants/radius";
-import {AntDesign, Entypo} from "@expo/vector-icons";
-import InternetIcon from "./assets/icons/internet-svgrepo-com.svg";
-import {TextXL} from "./components/text";
-import {TextM} from "./components/text";
-
-const CARD_PADDING = 14;
+import {data} from "./data"
+import ItemCard from "./components/itemCard";
+import ListItemSeparator from "./components/ListItemSeparator";
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -19,34 +14,24 @@ export default function App() {
   });
 
   return fontLoaded ? (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto"/>
-      <View style={[styles.card, {backgroundColor: colors.VIOLET}]}>
-        <View style={styles.cardContent}>
-          <AntDesign name="exclamationcircle" size={32} color={colors.DARK}/>
-          <View style={styles.textContainer}>
-            <TextXL color={colors.PURPLE}>Hello World</TextXL>
-            <TextM>description....</TextM>
-          </View>
-        </View>
-      </View>
-      <View style={[styles.card, {backgroundColor: colors.GREY}]}>
-        <View style={styles.cardContent}>
-          <Entypo name="circle-with-cross" size={32} color={colors.DARK}/>
-        </View>
-      </View>
-      <View style={[styles.card, {backgroundColor: colors.PURPLE}]}>
-        <View style={styles.cardContent}>
-          <InternetIcon width={32} height={32} color={colors.PURPLE}/>
-        </View>
-      </View>
-      <View style={[styles.card, {backgroundColor: colors.ORANGE}]}>
-        <View style={styles.cardContent}/>
-      </View>
-      <View style={[styles.card, {backgroundColor: colors.DARK}]}>
-        <View style={styles.cardContent}/>
-      </View>
-    </View>
+      <FlatList
+        style={styles.listContainer}
+        data={data}
+        keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={ListItemSeparator}
+        renderItem={({item}) => (
+          <ItemCard
+            title={item.title}
+            description={item.description}
+            color={item.color}
+            Logo={item.logo}
+          />
+        )}
+      />
+
+    </SafeAreaView>
   ) : null;
 }
 
@@ -54,31 +39,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.LIGHT,
-    alignItems: "center",
-    justifyContent: "center",
+
     paddingHorizontal: padding.HORIZONTAL_SCREEN,
   },
-  card: {
+  listContainer: {
     width: "100%",
-    height: "15%",
-    borderWidth: 1,
-    marginVertical: margin.VERTICAL_SEPARATOR,
-    borderRadius: radius.MEDIUM,
-    padding: CARD_PADDING,
-  },
-  cardContent: {
-    width: "100%",
-    height: "100%",
-    borderRadius: radius.MEDIUM,
-    backgroundColor: colors.LIGHT,
-    alignItems: "center",
-    padding: CARD_PADDING,
-    flexDirection: "row",
-  },
-  textContainer: {
-    flex: 1,
-    height: "80%",
-    paddingLeft: CARD_PADDING,
-    justifyContent: "space-evenly"
-  },
+    paddingHorizontal: padding.HORIZONTAL_SCREEN,
+    marginTop:8
+  }
 });
