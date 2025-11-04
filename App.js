@@ -1,14 +1,16 @@
 import {StatusBar} from 'expo-status-bar';
-import { StyleSheet, View } from "react-native";
-import { useFonts } from "expo-font";
-import { colors } from "./constants/colors";
-import { padding } from "./constants/padding";
-import { margin } from "./constants/margin";
-import { radius } from "./constants/radius";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import {StyleSheet, Text, View} from "react-native";
+import {useFonts} from "expo-font";
+import {colors} from "./constants/colors";
+import {padding} from "./constants/padding";
+import {margin} from "./constants/margin";
+import {radius} from "./constants/radius";
+import {AntDesign, Entypo} from "@expo/vector-icons";
 import InternetIcon from "./assets/icons/internet-svgrepo-com.svg";
+import {TextXL} from "./components/text";
+import {TextM} from "./components/text";
 
-const CARD_PADDING = 20;
+const CARD_PADDING = 14;
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -22,6 +24,10 @@ export default function App() {
       <View style={[styles.card, {backgroundColor: colors.VIOLET}]}>
         <View style={styles.cardContent}>
           <AntDesign name="exclamationcircle" size={32} color={colors.DARK}/>
+          <View style={styles.textContainer}>
+            <TextXL color={colors.PURPLE}>Hello World</TextXL>
+            <TextM>description....</TextM>
+          </View>
         </View>
       </View>
       <View style={[styles.card, {backgroundColor: colors.GREY}]}>
@@ -65,7 +71,14 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: radius.MEDIUM,
     backgroundColor: colors.LIGHT,
-    justifyContent: "center",
+    alignItems: "center",
     padding: CARD_PADDING,
+    flexDirection: "row",
+  },
+  textContainer: {
+    flex: 1,
+    height: "80%",
+    paddingLeft: CARD_PADDING,
+    justifyContent: "space-evenly"
   },
 });
